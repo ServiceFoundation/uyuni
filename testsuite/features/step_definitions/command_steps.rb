@@ -163,9 +163,9 @@ When(/^I make sure no spacewalk\-repo\-sync is executing, excepted the ones need
     process = command_output.split("\n")[0]
     pid = process.split(' ')[0]
     channel = process.split(' ')[5]
-    # The following assumes the clients are SLE 12 SP4
-    if ['sles12-sp4-pool-x86_64', 'sle-manager-tools12-pool-x86_64-sp4', 'sle-module-containers12-pool-x86_64-sp4',
-        'sles12-sp4-updates-x86_64', 'sle-manager-tools12-updates-x86_64-sp4', 'sle-module-containers12-updates-x86_64-sp4'].include? channel
+    # The following assumes the clients are SLE 15 SP1
+    if ['sle-product-sles15-sp1-pool-x86_64', 'sle-manager-tools15-pool-x86_64-sp1', 'sle-module-containers15-sp1-pool-x86_64',
+        'sle-product-sles15-sp1-updates-x86_64', 'sle-manager-tools15-updates-x86_64-sp1', 'sle-module-containers15-sp1-updates-x86_64'].include? channel
       STDOUT.puts "Reposync of channel #{channel} left running" if (reposync_left_running_streak % 60).zero?
       reposync_left_running_streak += 1
       sleep 1
@@ -575,7 +575,7 @@ end
 And(/I create dockerized minions$/) do
   master, _code = $minion.run('cat /etc/salt/minion.d/susemanager.conf')
   # build everything
-  distros = %w[rhel6 rhel7 sles11sp4 sles12 sles12sp1]
+  distros = %w[rhel6 rhel7 sles11sp4 sles12sp5 sles15sp1]
   docker_timeout = 2000
   distros.each do |os|
     $minion.run("docker build https://gitlab.suse.de/galaxy/suse-manager-containers.git#master:minion-fabric/#{os}/ -t #{os}", true, docker_timeout)
